@@ -1,3 +1,4 @@
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -15,14 +16,25 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         external: isProdBuild
-          ? ["react", "react-dom", "tailwindcss", "@mui/material"]
+          ? [
+            "react",
+            "react-dom",
+            "@mui/material",
+            "@mui/icons-material",
+            "@emotion/react",
+            "@emotion/styled",
+            "@mui/material/styles"
+          ]
           : [],
         output: {
           globals: {
             react: "React",
             "react-dom": "ReactDOM",
-            tailwindcss: "tailwindcss",
             "@mui/material": "MaterialUI",
+            "@mui/material/styles": "StylesMUI",
+            "@mui/icons-material": "MuiIcons",
+            "@emotion/react": "EmotionReact",
+            "@emotion/styled": "EmotionStyled",
           },
         },
       },
@@ -34,8 +46,16 @@ export default defineConfig(({ mode }) => {
     },
     optimizeDeps: {
       exclude: isProdBuild
-        ? ["react", "react-dom", "tailwindcss", "@mui/material"]
+        ? [
+          "react",
+          "react-dom",
+          "@mui/material",
+          "@mui/icons-material",
+          "@emotion/react",
+          "@emotion/styled",
+          "@mui/material/styles"
+        ]
         : [],
     },
   };
-});
+})

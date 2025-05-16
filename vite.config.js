@@ -23,7 +23,8 @@ export default defineConfig(({ mode }) => {
             "@mui/icons-material",
             "@emotion/react",
             "@emotion/styled",
-            "@mui/material/styles"
+            "@mui/material/styles",
+            "react-router-dom"
           ]
           : [],
         output: {
@@ -35,6 +36,7 @@ export default defineConfig(({ mode }) => {
             "@mui/icons-material": "MuiIcons",
             "@emotion/react": "EmotionReact",
             "@emotion/styled": "EmotionStyled",
+            "react-router-dom": "ReactRouterDOM"
           },
         },
       },
@@ -53,7 +55,8 @@ export default defineConfig(({ mode }) => {
           "@mui/icons-material",
           "@emotion/react",
           "@emotion/styled",
-          "@mui/material/styles"
+          "@mui/material/styles",
+          "react-router-dom"
         ]
         : [],
     },

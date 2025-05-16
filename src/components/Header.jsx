@@ -27,7 +27,7 @@ import {
 
 
 // import { CustomThemeSwitcherComp } from "./themeSwitch";
-// import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -74,15 +74,13 @@ export const Header = ({
   collapsedWidth,
   open,
   setOpen,
-  locationParent,
-  Link,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const location = locationParent;
+  const location = useLocation();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const navigate = window.navigateGlobal;
+  const navigate = useNavigate();
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };

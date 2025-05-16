@@ -1,14 +1,11 @@
 import { Header } from "./components/Header";
 
-function App({ open, setOpen, navigate, location, Link }) {
+function App({ open, setOpen }) {
   return (
     <>
       <Header
         open={open}
         setOpen={setOpen}
-        locationParent={location}
-        Link={Link}
-        navigate={navigate}
       />
     </>
   );

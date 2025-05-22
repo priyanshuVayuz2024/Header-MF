@@ -8,7 +8,6 @@ import {
   Badge,
   MenuItem,
   Menu,
-
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -21,10 +20,6 @@ import {
   Menu as MenuIcon,
   ArrowBackIosOutlined as ArrowBackIosOutlinedIcon,
 } from "@mui/icons-material";
-
-
-
-
 
 // import { CustomThemeSwitcherComp } from "./themeSwitch";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -69,18 +64,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export const Header = ({
-  drawerWidth,
-  collapsedWidth,
-  open,
-  setOpen,
-}) => {
+export const Header = ({ drawerWidth, collapsedWidth, open, setOpen }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const location = useLocation();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -221,12 +215,14 @@ export const Header = ({
         open={open}
       >
         <Toolbar>
-          <IconButton onClick={toggleDrawer}>
-            {!open ? <MenuIcon /> : <ArrowBackIosOutlinedIcon />}
-          </IconButton>
+          {token && (
+            <IconButton onClick={toggleDrawer}>
+              {!open ? <MenuIcon /> : <ArrowBackIosOutlinedIcon />}
+            </IconButton>
+          )}
           <button
             className="flex justify-center items-center"
-            onClick={() => navigate("/")}
+            onClick={() => localStorage.setItem("token", "adsfaadsfsaddsf")}
           >
             <img className="w-36" src="/anacity.svg" alt="" />
           </button>
@@ -241,53 +237,57 @@ export const Header = ({
           >
             {getPageTitleCapitalized()}
           </Typography> */}
-          <Search className="hidden sm:block">
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          {/* <Box>
+          {token && (
+            <>
+              <Search className="hidden sm:block">
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Search>
+              <Box sx={{ flexGrow: 1 }} />
+              {/* <Box>
             <CustomThemeSwitcherComp />
           </Box> */}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon color="var(--color-icon)" />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
+              <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                >
+                  <Badge badgeContent={17} color="error">
+                    <NotificationsIcon color="var(--color-icon)" />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={handleMobileMenuOpen}
+                  color="inherit"
+                >
+                  <MoreIcon />
+                </IconButton>
+              </Box>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

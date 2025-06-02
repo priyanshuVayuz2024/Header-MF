@@ -73,8 +73,6 @@ export const Header = ({ drawerWidth, collapsedWidth, open, setOpen }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -222,7 +220,7 @@ export const Header = ({ drawerWidth, collapsedWidth, open, setOpen }) => {
           )}
           <button
             className="flex justify-center items-center"
-            onClick={() => localStorage.setItem("token", "adsfaadsfsaddsf")}
+            // onClick={() => localStorage.setItem("token", "adsfaadsfsaddsf")}
           >
             <img className="w-36" src="/anacity.svg" alt="" />
           </button>

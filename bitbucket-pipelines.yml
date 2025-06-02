@@ -1,0 +1,48 @@
+image: node:22
+
+pipelines:
+  branches:
+    main: # Triggers on push to the "main" branch
+      - step:
+          name: Deploy Noticeboard Bundles to S3
+          caches:
+            - node
+          script:
+            - echo "🔁 Checking out code..."
+
+            # Validate and load .env
+            - >
+              if [ ! -f .env ]; then
+                echo "❌ .env file not found";
+                exit 1;
+              fi
+            - >
+              if ! grep -q "^S3_PREFIX=" .env; then
+                echo "❌ S3_PREFIX not found in .env";
+                exit 1;
+              fi
+            - export $(grep -v '^#' .env | xargs)
+            - echo "✅ Loaded S3_PREFIX=$S3_PREFIX"
+
+            # Install dependencies and build
+            - npm install
+            - npm run build
+            # - npm run build-standalone  # Uncomment if needed
+
+            # Install AWS CLI
+            - apt-get update && apt-get install -y awscli
+            - echo "✅ Loaded $AWS_ACCESS_KEY_ID"
+            # Configure AWS
+            - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            - aws configure set default.region ap-south-1
+
+            # Compute S3 path and upload
+            - >
+              S3_PATH=$(echo "$S3_PREFIX" | sed -E 's|https://([^.]+)\.s3[^/]*\.amazonaws\.com/?|s3://\1/|') &&
+              echo "📦 Uploading MF bundle to: ${S3_PATH}/header/1.1" &&
+              aws s3 cp dist/ "${S3_PATH}/header/1.1/mf" --recursive
+
+# definitions:
+#   caches:
+#     node: ~/.npm
